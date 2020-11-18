@@ -7,11 +7,11 @@ float f1 = 0.01, f2 = 0.02, f3 = 0.03;
 int[][] coordenada;
 int largura, altura;
 int meiaLargura, meiaAltura;
-
+int count = 0;
 void setup() {
  
   sinoTibetano = new SoundFile(this,"sino.wav");
-  size(800, 800);
+  size(1400, 800);
   colorMode(RGB, 1);
   background(1);
   
@@ -36,7 +36,17 @@ void setup() {
 }
 
 void draw() {
-  velocidade[meiaLargura][meiaAltura] = 0;
+  
+  if (count == 0) {
+    background(1);
+    fill(0);
+    noStroke();
+    
+    float onda = sin(frameCount);
+    
+    ellipse(width/2 + onda *2, height/2, 100, 100);
+  } else {
+    velocidade[meiaLargura][meiaAltura] = 0;
   posicao[meiaLargura][meiaAltura] = (sin(frameCount * f1) + sin(frameCount * f2) + sin(frameCount * f3)) * 8;
   
   for (int x = 1; x < largura; x++) {
@@ -53,9 +63,11 @@ void draw() {
   }
   
   updatePixels();
+  }    
 }
 //Função de clique
 void mousePressed() {
+  count += 1;
   sinoTibetano.play();
   for (int x = 1; x < largura; x++) {
     for (int y = 1; y < altura; y++) {
